@@ -3,7 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PostList from '../components/PostList.astro';
 import ProjectList from '../components/ProjectList.astro';
 import { profile } from '../data/profile';
-import { learning } from '../data/learning';
 import { getPosts, getProjects } from '../lib/blog';
 
 const posts = (await getPosts()).slice(0, 4);
