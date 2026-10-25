@@ -3,11 +3,10 @@ title: Semi-Supervised Liver Segmentation via Hybrid Vision Mamba
 description: A 2.5D medical image segmentation pipeline combining CNN and Vision Mamba components for robust liver segmentation.
 category: Computer vision
 year: 2025
-featured: true
-order: 2
+featured: false
+order: 3
 tech: [PyTorch, Vim, ViT, Medical Imaging, Segmentation]
 ---
-*This project is based on the resume entry for a liver segmentation system.*
 
 ## Overview and motivation
 
@@ -19,7 +18,7 @@ Liver segmentation in volumetric data often suffers from edge distortion, foregr
 
 ## Approach and architecture
 
-The model fuses a CNN encoder with a Vision Mamba encoder and a TransUNet-style decoder. By processing neighboring slices in a 2.5D setup, the network captures both local texture and broader inter-slice context while keeping the pipeline practical for medical image workflows.
+The model uses a CNN - Vision Mamba encoder and a TransUNet-style decoder. By processing neighboring slices in a 2.5D setup, the network captures both local texture and broader inter-slice context while keeping the pipeline practical for medical image workflows.
 
 ## Technical decisions and trade-offs
 
@@ -33,4 +32,4 @@ The system used a weighted compound loss combining Dice, cross-entropy, Focal Tv
 
 ## Results and limitations
 
-The project reports a Dice score of 0.9321 on the target task. The approach is promising for medical segmentation, but real-world deployment would still require more validation across diverse scanners, imaging protocols, and annotation standards.
+The project reports a Dice score of **0.9321** on the target task. The approach is promising for medical segmentation, but real-world deployment would still require more validation across diverse scanners, imaging protocols, and annotation standards.

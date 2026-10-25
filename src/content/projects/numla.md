@@ -2,7 +2,7 @@
 title: NumLA
 description: A beginner-friendly scientific computing library focused on modern C++ numerical primitives and linear algebra routines.
 category: Scientific computing
-year: 2025
+year: 2026
 featured: true
 order: 1
 tech: [C++, Template Programming, Linear Algebra, Scientific Computing]
@@ -29,7 +29,7 @@ The project centers on a custom templated matrix engine and a set of numerical r
 
 ## Implementation details
 
-The implementation includes linear algebra building blocks such as Gaussian elimination, LU decomposition, and linear system solvers. These are foundational routines for numerical analysis and provide a practical path into more advanced algorithms.
+The implementation includes linear algebra building blocks such as **Gaussian elimination**, **LU decomposition**, and **linear system solvers**. These are foundational routines for numerical analysis and provide a practical path into more advanced algorithms.
 
 ## Results and limitations
 

@@ -15,7 +15,7 @@ export const profile = {
   social: [
     { label: 'GitHub', href: 'https://github.com/baranwalayush' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ayush-kumar-baranwal' },
-    { label: 'Resume', href: '/Resume-AyushBaranwal.pdf', download: false },
+    // { label: 'Resume', href: '/Resume-AyushBaranwal.pdf', download: false },
   ],
 
   interests: [
@@ -44,6 +44,7 @@ export const profile = {
       note: 'Working on Electronic Design Automation (EDA) software, exploring engineering challenges in tools and workflows used in vlsi design.' },
 
     { title: 'Open source contributor', 
+      link: 'https://github.com/search?q=is%3Apr+author%3Abaranwalayush&type=pullrequests',
       place: 'Various projects', 
       years: '2023 - present', 
       note: 'Contributions across projects including mpmath, SciPy, SHAP, and mlpack. Work has included numerical routines, algorithmic improvements, feature development, bug fixes, API enhancements, test coverage and improving the reliability of existing implementations.', 
@@ -57,6 +58,7 @@ export const profile = {
     },
 
     { title: 'Google Summer of Code Contributor', 
+      link: 'https://summerofcode.withgoogle.com/programs/2025/projects/gtQryewh',
       place: 'National Resource for Network Biology (NRNB)', 
       years: 'May 2025 - September 2025', 
       note:
@@ -91,5 +93,6 @@ export const nav = [
   { label: 'About', href: '/about/' },
   { label: 'Projects', href: '/projects/' },
   { label: 'Writing', href: '/blog/' },
+  { label: 'Resume', href: '/Resume-AyushBaranwal.pdf', download: false },
   // { label: 'Learning', href: '/learning/' },
 ];

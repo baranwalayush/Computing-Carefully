@@ -4,10 +4,9 @@ description: A football analytics pipeline using object detection and tracking t
 category: Computer vision
 year: 2025
 featured: true
-order: 3
+order: 2
 tech: [Python, Ultralytics, OpenCV, Scikit-learn, Roboflow, NumPy]
 ---
-*This project is based on the resume entry for a football match analysis pipeline.*
 
 ## Overview and motivation
 
