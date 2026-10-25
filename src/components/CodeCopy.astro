@@ -1,0 +1,30 @@
+<script>
+  // Wrap each Shiki block with a language label and a copy button.
+  document.querySelectorAll<HTMLPreElement>('.prose pre.astro-code').forEach((pre) => {
+    if (pre.parentElement?.classList.contains('code-block')) return;
+    const lang = pre.getAttribute('data-language') || (pre.className.match(/language-(\w+)/)?.[1] ?? 'text');
+    const wrap = document.createElement('div');
+    wrap.className = 'code-block';
+    const bar = document.createElement('div');
+    bar.className = 'code-block-bar';
+    const label = document.createElement('span');
+    label.textContent = lang;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'copy-btn';
+    btn.textContent = 'Copy';
+    btn.setAttribute('aria-label', `Copy ${lang} code`);
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(pre.innerText);
+        btn.textContent = 'Copied';
+      } catch {
+        btn.textContent = 'Press Ctrl+C';
+      }
+      setTimeout(() => (btn.textContent = 'Copy'), 1800);
+    });
+    bar.append(label, btn);
+    pre.replaceWith(wrap);
+    wrap.append(bar, pre);
+  });
+</script>

@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectList from '../../components/ProjectList.astro';
+import { getProjects } from '../../lib/blog';
+const projects = await getProjects();
+---
+<BaseLayout title="Projects" description="Selected software and research projects, with notes on architecture and trade-offs.">
+  <div class="narrow page-head"><h1>Projects</h1><p>Each project has a short write-up of the problem, the approach, and the outcome.</p></div>
+  <div class="narrow">
+    {projects.length ? <ProjectList projects={projects} /> : <p>No projects yet. Add a Markdown file to <code>src/content/projects/</code>.</p>}
+  </div>
+</BaseLayout>

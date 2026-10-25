@@ -1,0 +1,54 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import CodeCopy from '../../components/CodeCopy.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import { getProjects, getPosts } from '../../lib/blog';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  const posts = await getPosts();
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project, related: posts.filter((p) => p.data.relatedProject === project.id) },
+  }));
+}
+const { project, related } = Astro.props;
+const { Content, headings } = await render(project);
+const d = project.data;
+---
+<BaseLayout title={d.title} description={d.description}>
+  <article class="narrow-text">
+    <header class="head">
+      <p class="meta"><a href="/projects/">Projects</a>, {d.category}, {d.year}</p>
+      <h1>{d.title}</h1>
+      <p class="sub">{d.description}</p>
+      <ul class="links">
+        {d.repo && <li><a class="btn-link" href={d.repo} rel="noopener">Repository</a></li>}
+        {d.demo && <li><a class="btn-link quiet" href={d.demo} rel="noopener">Demo</a></li>}
+      </ul>
+      <p class="meta tech"><span class="mono">{d.tech.join('  /  ')}</span></p>
+    </header>
+    <TableOfContents headings={headings} />
+    <div class="prose"><Content /></div>
+    {related.length > 0 && (
+      <section class="related" aria-labelledby="rel">
+        <h2 id="rel">Related articles</h2>
+        <PostList posts={related} />
+      </section>
+    )}
+  </article>
+  <CodeCopy />
+</BaseLayout>
+
+<style>
+  .narrow-text { width: min(100% - 2 * var(--gutter), 44rem); margin-inline: auto; padding-bottom: var(--space-6); }
+  .head { padding-top: var(--space-7); }
+  .head h1 { font-size: var(--step-4); margin-block: var(--space-3); }
+  .sub { font-family: var(--font-serif); font-size: var(--step-1); color: var(--text-muted); line-height: 1.4; }
+  .links { display: flex; gap: var(--space-3); list-style: none; padding: 0; margin: var(--space-4) 0; }
+  .tech { margin: 0; }
+  .related { margin-top: var(--space-7); }
+  .related h2 { font-size: var(--step-1); margin-bottom: var(--space-4); }
+</style>

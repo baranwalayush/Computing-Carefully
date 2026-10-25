@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+import ProjectList from '../components/ProjectList.astro';
+import { profile } from '../data/profile';
+import { learning } from '../data/learning';
+import { getPosts, getProjects } from '../lib/blog';
+
+const posts = (await getPosts()).slice(0, 4);
+const featured = (await getProjects()).filter((p) => p.data.featured).slice(0, 3);
+---
+<BaseLayout>
+  <section class="container hero">
+    <h1>{profile.headline}</h1>
+    <p class="lede">{profile.intro}</p>
+    <p class="actions">
+      <a class="btn-link" href="/projects/">Selected work</a>
+      <a class="btn-link quiet" href="/blog/">Read the writing</a>
+    </p>
+  </section>
+
+  <div class="container">
+
+    <section class="section" aria-labelledby="writing">
+      <div class="section-head"><h2 id="writing">Recent writing</h2><a href="/blog/">All articles</a></div>
+      <PostList posts={posts} />
+    </section>
+
+    <section class="section" aria-labelledby="work">
+      <div class="section-head"><h2 id="work">Selected projects</h2><a href="/projects/">All projects</a></div>
+      <ProjectList projects={featured} />
+    </section>
+
+  {/*
+    <section class="section two-col" aria-labelledby="interests">
+      <h2 id="interests">Currently interested in</h2>
+      <ul class="interest-list">{profile.interests.map((i) => <li>{i}</li>)}</ul>
+    </section>
+
+  
+    <section class="section two-col" aria-labelledby="learning">
+      <div>
+        <h2 id="learning">Learning</h2>
+        <p class="meta"><a href="/learning/">Full learning log</a></p>
+      </div>
+      <ul class="interest-list">{learning.current.map((t) => <li>{t.topic}</li>)}</ul>
+    </section>
+  */}
+
+  </div>
+</BaseLayout>
+
+<style>
+  .hero { padding-block: clamp(3rem, 10vw, 7rem) var(--space-7); }
+  .hero h1 { font-size: var(--step-4); max-width: 18ch; font-weight: 450; line-height: 1.08; }
+  .lede { font-family: var(--font-serif); font-size: var(--step-1); line-height: 1.5; color: var(--text-muted); max-width: 36rem; margin-top: var(--space-5); }
+  .actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-5); }
+  .two-col { display: grid; grid-template-columns: 14rem 1fr; gap: var(--space-5); align-items: start; }
+  .interest-list { margin: 0; padding: 0; list-style: none; columns: 2 14rem; column-gap: var(--space-5); font-family: var(--font-serif); font-size: var(--step-1); }
+  .interest-list li { padding-block: 0.2rem; break-inside: avoid; }
+  @media (max-width: 44rem) { .two-col { grid-template-columns: 1fr; } }
+</style>

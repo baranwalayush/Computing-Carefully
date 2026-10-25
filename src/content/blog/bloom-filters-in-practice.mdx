@@ -1,0 +1,68 @@
+---
+title: Bloom filters in practice
+subtitle: How to size one, and what the false-positive rate really means
+description: A walk through sizing a Bloom filter, with the derivation of the optimal number of hash functions.
+pubDate: 2026-09-12
+updatedDate: 2026-09-20
+category: Technical Deep Dives
+tags: [data-structures, probability]
+featured: false
+draft: true
+relatedProject: lantern-search
+---
+*Fictional sample article. Replace or delete it.*
+
+A Bloom filter answers one question, "have I possibly seen this item?", using a fixed amount of memory. It can say "maybe" wrongly but never says "no" wrongly.
+
+## The setup
+
+Take a bit array of $m$ bits and $k$ independent hash functions. Inserting an item sets $k$ bits. A lookup checks the same $k$ bits.
+
+<figure>
+  <img src="/images/bloom-filter.svg" alt="An item hashed to three positions in a bit array" width="640" height="220" loading="lazy" />
+  <figcaption>Figure 1. Inserting one item sets three bits. A lookup passes only if all three are set.</figcaption>
+</figure>
+
+## Estimating the false-positive rate
+
+After inserting $n$ items, the probability that a particular bit is still zero is approximately
+
+$$
+\left(1-\frac{1}{m}\right)^{kn}\approx e^{-kn/m}.
+$$
+
+A false positive needs all $k$ probed bits to be set, so
+
+$$
+p \approx \left(1-e^{-kn/m}\right)^{k}.
+$$
+
+## Choosing k
+
+Minimising $p$ over $k$ gives $k = \frac{m}{n}\ln 2$, and then $m = -\frac{n\ln p}{(\ln 2)^2}$.
+
+| Target p | Bits per item | Hash functions |
+| --- | --- | --- |
+| 1% | 9.6 | 7 |
+| 0.1% | 14.4 | 10 |
+| 0.01% | 19.2 | 13 |
+
+## A small implementation
+
+```python
+import math
+
+def size_filter(n: int, p: float) -> tuple[int, int]:
+    """Return (bits, hashes) for n items at false-positive rate p."""
+    m = math.ceil(-n * math.log(p) / (math.log(2) ** 2))
+    k = max(1, round(m / n * math.log(2)))
+    return m, k
+
+print(size_filter(1_000_000, 0.01))
+```
+
+## What to remember
+
+> The rate you chose is the rate at capacity. An under-filled filter does better, and an over-filled one degrades quickly.
+
+Plan for growth, or use a scalable variant that adds layers as it fills.

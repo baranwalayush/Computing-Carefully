@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { profile } from '../data/profile';
+---
+<BaseLayout title="Contact" description={`Contact ${profile.name} by email or find them on social platforms.`}>
+  <div class="narrow page-head"><h1>Contact</h1><p>Email is the best way to reach me. I read everything, and reply when I can.</p></div>
+  <div class="narrow">
+    <section class="section">
+      <h2>Email</h2>
+      <p><a href={`mailto:${profile.email}`}>{profile.email}</a></p>
+    </section>
+    <section class="section">
+      <h2 style="margin-bottom: var(--space-3)">Elsewhere</h2>
+      <ul class="entries">{profile.social.map((s) => (
+        <li class="entry"><p class="meta">{s.label}</p><div><a
+          href={s.href}
+          rel={s.href.startsWith('http') ? 'me noopener noreferrer' : undefined}
+          target={s.href.startsWith('http') ? '_blank' : '_blank'}
+          download={s.download ? 'Resume-AyushBaranwal.pdf' : undefined}
+        >{s.label === 'Resume' ? 'Resume (PDF)' : s.href.replace(/^https?:\/\//, '')}</a></div></li>
+      ))}</ul>
+    </section>
+  </div>
+</BaseLayout>

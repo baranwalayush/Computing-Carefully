@@ -1,0 +1,21 @@
+---
+import type { Post } from '../lib/blog';
+import { formatDate, readingTime } from '../lib/blog';
+interface Props { posts: Post[]; showTags?: boolean }
+const { posts, showTags = false } = Astro.props;
+---
+<ul class="entries">
+  {posts.map((p) => (
+    <li class="entry" data-post data-category={p.data.category} data-search={[p.data.title, p.data.description, p.data.tags.join(' '), p.data.category].join(' ').toLowerCase()}>
+      <p class="meta"><time datetime={p.data.pubDate.toISOString()}>{formatDate(p.data.pubDate)}</time></p>
+      <div>
+        <h3><a href={`/blog/${p.id}/`}>{p.data.title}</a></h3>
+        <p>{p.data.description}</p>
+        <p class="meta">{p.data.category}, {readingTime(p.body)} min read</p>
+        {showTags && p.data.tags.length > 0 && (
+          <ul class="tags">{p.data.tags.map((t) => <li><a href={`/blog/tags/${t}/`}>#{t}</a></li>)}</ul>
+        )}
+      </div>
+    </li>
+  ))}
+</ul>

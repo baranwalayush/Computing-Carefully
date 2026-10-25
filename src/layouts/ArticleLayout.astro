@@ -1,0 +1,77 @@
+---
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from './BaseLayout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import CodeCopy from '../components/CodeCopy.astro';
+import PostList from '../components/PostList.astro';
+import { formatDate, readingTime, relatedPosts, type Post } from '../lib/blog';
+
+interface Props { post: Post; headings: MarkdownHeading[]; all: Post[] }
+const { post, headings, all } = Astro.props;
+const { data } = post;
+const idx = all.findIndex((p) => p.id === post.id);
+const newer = idx > 0 ? all[idx - 1] : undefined;
+const older = idx < all.length - 1 ? all[idx + 1] : undefined;
+const related = relatedPosts(post, all);
+const series = data.series ? all.filter((p) => p.data.series === data.series).reverse() : [];
+---
+<BaseLayout title={data.title} description={data.description} type="article">
+  <article class="article">
+    <header class="narrow-text head">
+      <p class="meta"><a href={`/blog/?category=${encodeURIComponent(data.category)}`}>{data.category}</a></p>
+      <h1>{data.title}</h1>
+      {data.subtitle && <p class="subtitle">{data.subtitle}</p>}
+      <p class="meta byline">
+        <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
+        {data.updatedDate && <span>, updated <time datetime={data.updatedDate.toISOString()}>{formatDate(data.updatedDate)}</time></span>}
+        <span>, {readingTime(post.body)} min read</span>
+      </p>
+      {data.tags.length > 0 && <ul class="tags">{data.tags.map((t) => <li><a href={`/blog/tags/${t}/`}>#{t}</a></li>)}</ul>}
+    </header>
+
+    <div class="narrow-text">
+      {series.length > 1 && (
+        <aside class="series" aria-label="Series">
+          <p class="meta">Part of the series <strong>{data.series}</strong></p>
+          <ol>{series.map((s) => <li>{s.id === post.id ? <span aria-current="page">{s.data.title}</span> : <a href={`/blog/${s.id}/`}>{s.data.title}</a>}</li>)}</ol>
+        </aside>
+      )}
+      <TableOfContents headings={headings} />
+      <div class="prose"><slot /></div>
+    </div>
+  </article>
+
+  <div class="narrow-text after">
+    <nav class="pager" aria-label="More articles">
+      {newer ? <a href={`/blog/${newer.id}/`} rel="next"><span class="meta">Newer</span><span class="t">{newer.data.title}</span></a> : <span />}
+      {older ? <a href={`/blog/${older.id}/`} rel="prev" class="right"><span class="meta">Older</span><span class="t">{older.data.title}</span></a> : <span />}
+    </nav>
+    {related.length > 0 && (
+      <section aria-labelledby="related-h">
+        <h2 id="related-h" class="related-h">Related reading</h2>
+        <PostList posts={related} />
+      </section>
+    )}
+  </div>
+  <CodeCopy />
+</BaseLayout>
+
+<style>
+  .narrow-text { width: min(100% - 2 * var(--gutter), var(--w-text)); margin-inline: auto; }
+  .head { padding-top: var(--space-7); }
+  .head h1 { font-size: var(--step-4); margin-block: var(--space-3); }
+  .subtitle { font-family: var(--font-serif); font-size: var(--step-1); color: var(--text-muted); line-height: 1.4; margin: 0 0 var(--space-4); }
+  .byline { margin-bottom: 0; }
+  .series { border-left: 2px solid var(--accent); padding-left: var(--space-4); margin-top: var(--space-5); font-size: 0.92rem; }
+  .series p { margin: 0 0 var(--space-2); }
+  .series ol { margin: 0; padding-left: 1.2rem; }
+  .article { padding-bottom: var(--space-6); }
+  .after { padding-bottom: var(--space-6); }
+  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); border-top: 1px solid var(--rule); padding-top: var(--space-5); margin-bottom: var(--space-7); }
+  .pager a { display: flex; flex-direction: column; text-decoration: none; color: var(--text); gap: var(--space-1); }
+  .pager a:hover .t { text-decoration: underline; }
+  .pager .t { font-family: var(--font-serif); font-size: var(--step-1); line-height: 1.25; }
+  .pager .right { text-align: right; grid-column: 2; }
+  .related-h { font-size: var(--step-1); margin-bottom: var(--space-4); }
+  @media (max-width: 36rem) { .pager { grid-template-columns: 1fr; } .pager .right { grid-column: 1; text-align: left; } }
+</style>

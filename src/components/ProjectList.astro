@@ -1,0 +1,15 @@
+---
+interface Item { id: string; data: { title: string; description: string; category: string; year: number } }
+interface Props { projects: Item[] }
+---
+<ul class="entries">
+  {Astro.props.projects.map((p) => (
+    <li class="entry">
+      <p class="meta">{p.data.category}<br />{p.data.year}</p>
+      <div>
+        <h3><a href={`/projects/${p.id}/`}>{p.data.title}</a></h3>
+        <p>{p.data.description}</p>
+      </div>
+    </li>
+  ))}
+</ul>

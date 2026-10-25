@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+import { learning } from '../data/learning';
+import { getPosts } from '../lib/blog';
+const notes = (await getPosts()).filter((p) => p.data.category === 'Learning Notes');
+---
+<BaseLayout title="Learning" description="Coursework, current topics, reading lists, and learning notes.">
+  <div class="narrow page-head"><h1>Learning</h1><p>What I’m studying now, what I’ve finished, and what I’m reading.</p></div>
+  <div class="narrow">
+    <section class="section" aria-labelledby="current">
+      <h2 id="current">Currently studying</h2>
+      <ul class="entries">{learning.current.map((t) => (
+        <li class="entry"><p class="meta">In progress</p><div><h3>{t.topic}</h3><p>{t.note}</p></div></li>
+      ))}</ul>
+    </section>
+    <section class="section" aria-labelledby="completed">
+      <h2 id="completed">Completed</h2>
+      <ul class="entries">{learning.completed.map((t) => (
+        <li class="entry"><p class="meta">{t.year}</p><div><h3>{t.topic}</h3><p>{t.kind}</p></div></li>
+      ))}</ul>
+    </section>
+    <section class="section" aria-labelledby="reading">
+      <h2 id="reading">Reading list</h2>
+      <ul class="entries">{learning.reading.map((b) => (
+        <li class="entry"><p class="meta">{b.status}</p><div><h3>{b.title}</h3><p>{b.author}</p></div></li>
+      ))}</ul>
+    </section>
+    <section class="section" aria-labelledby="notes">
+      <h2 id="notes">Learning notes</h2>
+      {notes.length ? <PostList posts={notes} /> : <p>No learning notes published yet.</p>}
+    </section>
+  </div>
+</BaseLayout>
+<style>.section h2 { margin-bottom: var(--space-4); }</style>

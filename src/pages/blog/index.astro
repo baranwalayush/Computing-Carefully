@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts } from '../../lib/blog';
+import { categories } from '../../content.config';
+
+const posts = await getPosts();
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+---
+<BaseLayout title="Writing" description="Technical deep dives, engineering notes, learning notes, and essays.">
+  <div class="narrow page-head">
+    <h1>Writing</h1>
+    <p>Technical deep dives, engineering notes, learning notes, and essays.</p>
+  </div>
+
+  <div class="narrow">
+    <div class="controls">
+      <div role="group" aria-label="Filter by category" class="filters">
+        <button type="button" class="chip" data-cat="" aria-pressed="true">All</button>
+        {categories.map((c) => <button type="button" class="chip" data-cat={c} aria-pressed="false">{c}</button>)}
+      </div>
+      <div class="search">
+        <label for="q" class="sr-only">Search articles</label>
+        <input id="q" type="search" placeholder="Search titles, summaries, tags" autocomplete="off" />
+      </div>
+    </div>
+    <p class="meta" id="status" role="status" aria-live="polite">{posts.length} articles</p>
+
+    <PostList posts={posts} showTags />
+
+    <div id="empty" hidden class="empty">
+      <h2>No matching articles</h2>
+      <p>Try a different search term, or <button type="button" class="linklike" id="reset">clear the filters</button>.</p>
+    </div>
+
+    {posts.length === 0 && <div class="empty"><h2>No articles yet</h2><p>Add a Markdown file to <code>src/content/blog/</code> and it will appear here.</p></div>}
+
+    <p class="meta tag-index">Tags: {tags.map((t, i) => <><a href={`/blog/tags/${t}/`}>#{t}</a>{i < tags.length - 1 ? ' ' : ''}</>)}</p>
+    <p class="meta"><a href="/rss.xml">Subscribe via RSS</a></p>
+  </div>
+</BaseLayout>
+
+<style>
+  .controls { display: grid; gap: var(--space-4); margin-bottom: var(--space-4); }
+  .filters { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .chip { font: inherit; font-size: var(--step--1); background: none; color: var(--text-muted); border: 1px solid var(--rule); padding: 0.3rem 0.8rem; border-radius: 2px; cursor: pointer; }
+  .chip:hover { color: var(--text); border-color: var(--text-muted); }
+  .chip[aria-pressed='true'] { background: var(--text); color: var(--bg); border-color: var(--text); }
+  input[type='search'] { width: 100%; font: inherit; color: var(--text); background: var(--bg-sunk); border: 1px solid var(--rule); padding: 0.6rem 0.8rem; border-radius: 2px; }
+  input[type='search']::placeholder { color: var(--text-muted); }
+  .empty { padding-block: var(--space-6); border-top: 1px solid var(--rule); }
+  .empty h2 { font-size: var(--step-1); margin-bottom: var(--space-2); }
+  .linklike { font: inherit; color: var(--accent-ink); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }
+  .tag-index { margin-top: var(--space-6); font-family: var(--font-mono); }
+</style>
+
+<script>
+  const items = [...document.querySelectorAll<HTMLElement>('[data-post]')];
+  const chips = [...document.querySelectorAll<HTMLButtonElement>('.chip')];
+  const q = document.getElementById('q') as HTMLInputElement;
+  const status = document.getElementById('status')!;
+  const empty = document.getElementById('empty')!;
+  let cat = new URLSearchParams(location.search).get('category') ?? '';
+
+  function apply() {
+    const term = q.value.trim().toLowerCase();
+    let shown = 0;
+    items.forEach((el) => {
+      const ok = (!cat || el.dataset.category === cat) && (!term || (el.dataset.search ?? '').includes(term));
+      el.hidden = !ok;
+      if (ok) shown++;
+    });
+    chips.forEach((c) => c.setAttribute('aria-pressed', String((c.dataset.cat ?? '') === cat)));
+    status.textContent = `${shown} ${shown === 1 ? 'article' : 'articles'}`;
+    empty.hidden = shown !== 0 || items.length === 0;
+  }
+  chips.forEach((c) => c.addEventListener('click', () => {
+    cat = c.dataset.cat ?? '';
+    const url = new URL(location.href);
+    cat ? url.searchParams.set('category', cat) : url.searchParams.delete('category');
+    history.replaceState(null, '', url);
+    apply();
+  }));
+  q.addEventListener('input', apply);
+  document.getElementById('reset')?.addEventListener('click', () => { q.value = ''; cat = ''; apply(); });
+  apply();
+</script>
