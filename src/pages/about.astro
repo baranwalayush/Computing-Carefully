@@ -3,21 +3,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { profile } from '../data/profile';
 ---
 <BaseLayout title="About" description={`About ${profile.name}: biography, education, interests, and experience.`}>
-  <div class="narrow page-head"><h1>About</h1><p>{profile.role}.</p><p>{profile.location}.</p></div>
+  {/* <div class="narrow page-head"><h1>About</h1><p>{profile.role}.</p><p>{profile.location}.</p></div> */}
   <div class="narrow">
     <section class="section">
       <div class="bio">{profile.bio.map((p) => <p>{p}</p>)}</div>
     </section>
+    <section class="section" aria-labelledby="interests">
+      <h2 id="interests">Interests</h2>
+      <ul class="plain">{profile.interests.map((i) => <li>{i}</li>)}</ul>
+    </section>
+    
     <section class="section" aria-labelledby="experience">
       <h2 id="experience">Experience</h2>
       <ul class="entries">{profile.experience.map((e) => (
         <li class="entry"><p class="meta">{e.years}</p><div><h3>{e.title}</h3><p><i><h4>{e.place}</h4></i></p><p>{e.note}</p><p>{e.details}</p></div></li>
       ))}</ul>
     </section>
-    <section class="section" aria-labelledby="interests">
-      <h2 id="interests">Interests</h2>
-      <ul class="plain">{profile.interests.map((i) => <li>{i}</li>)}</ul>
-    </section>
+    
     <section class="section" aria-labelledby="education">
       <h2 id="education">Education</h2>
       <ul class="entries">{profile.education.map((e) => (

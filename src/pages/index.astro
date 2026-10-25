@@ -31,6 +31,14 @@ const featured = (await getProjects()).filter((p) => p.data.featured).slice(0, 3
     </section>
 
   {/*
+
+    <section class="section" aria-labelledby="experience">
+      <h2 id="experience">Experience</h2>
+      <ul class="entries">{profile.experience.map((e) => (
+        <li class="entry"><p class="meta">{e.years}</p><div><h3>{e.title}</h3><p><i><h4>{e.place}</h4></i></p><p>{e.note}</p></div></li>
+      ))}</ul>
+    </section>
+
     <section class="section two-col" aria-labelledby="interests">
       <h2 id="interests">Currently interested in</h2>
       <ul class="interest-list">{profile.interests.map((i) => <li>{i}</li>)}</ul>

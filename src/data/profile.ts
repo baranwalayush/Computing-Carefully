@@ -4,7 +4,7 @@ export const profile = {
   wordmark: 'Ayush Baranwal',
   role: 'Software Engineer',
   location: 'New Delhi, India',
-  tagline: 'Blah blah blah',
+  tagline: 'Thinking mathematically. Computing carefully.',
   headline: 'I build software, study systems, and write about what I learn. ',
 
   intro:
@@ -43,11 +43,12 @@ export const profile = {
       years: 'October 2026 - present', 
       note: 'Working on Electronic Design Automation (EDA) software, exploring engineering challenges in tools and workflows used in vlsi design.' },
 
-    { title: 'Open source contributor', 
+    { title: 'Open Source Developer', 
       link: 'https://github.com/search?q=is%3Apr+author%3Abaranwalayush&type=pullrequests',
       place: 'Various projects', 
       years: '2023 - present', 
-      note: 'Contributions across projects including mpmath, SciPy, SHAP, and mlpack. Work has included numerical routines, algorithmic improvements, feature development, bug fixes, API enhancements, test coverage and improving the reliability of existing implementations.', 
+      note: 'Contributions across core scientific computing and machine learning libraries, including SciPy, mpmath, SHAP, and mlpack.', 
+      details: 'Work has included numerical routines, algorithmic improvements, feature development, bug fixes, API enhancements, test coverage and improving the reliability of existing implementations.'
 
       // details: 'Implemented arbitrary-precision FFT/IFFT routines, high-precision root-finding algorithms, and extended matrix APIs to support list inputs and improve edge-case handling.'
 

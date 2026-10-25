@@ -5,9 +5,8 @@ import { unified } from '@astrojs/markdown-remark';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
-// Change `site` to your production URL (used for canonical URLs, sitemap, RSS).
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://computing-carefully.ayush6262kr.workers.dev/',
   integrations: [mdx(), sitemap()],
   markdown: {
     // KaTeX needs the remark/rehype pipeline, so we use the unified processor.
