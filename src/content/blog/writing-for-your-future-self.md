@@ -1,24 +1,27 @@
 ---
 title: Writing for your future self
-subtitle: Why I keep a public notebook
-description: An essay on the habit of writing in public, and what it does for understanding.
+description: Why I decided to keep a public notebook
 pubDate: 2026-10-19
 category: Essays
 tags: [writing, learning]
 ---
 
-Explaining something forces a kind of honesty that thinking alone does not. Gaps that felt like fog become sentences you cannot finish.
+Explaining something forces a kind of honesty that thinking alone doesn't. Gaps that once felt like a vague fog suddenly become sentences you cannot finish. You realise what you understand, what you only think you understand, and what you still need to figure out.
+
+That's exactly why I've decided to write about things I come across. Whether I'm studying something new, working on a project, exploring an idea, or simply having thoughts worth sharing, I want to make a habit of putting them into words here.
 
 ## The notebook as a tool
 
-A public notebook has a low bar and a long memory. Most entries will be read by nobody, including the author, and that is fine. The value arrives months later, when an old note answers a question outright.
+A public notebook has a low bar and a long memory. Most entries will be read by nobody, including me, and that's perfectly fine. 
 
-## Rules I try to follow
+The real value might come months or years later, when I stumble upon something I've written and get a glimpse of how I used to think. Perhaps I'll find an answer to a question I've long forgotten, notice how my understanding has changed, or simply get a taste of what was going through my mind at the time.
 
-- Write what I understood, and say what I did not.
-- Prefer a small, complete example over a general claim.
+In a way, this is as much about writing for my future self as it is about sharing things with others.
+
+## Rules I will try to follow
+
+- Write what I understood, and be honest about what I didn't.
+- Prefer a small, complete example over a broad, unsupported claim.
 - Date everything, and revise openly.
 
-> Clear writing is a record of thinking that survived contact with a reader.
-
-The habit costs an hour a week. I have not found a better trade.
+I don't expect every entry to be particularly insightful or even worth reading. I just want to keep showing up, thinking through things, and leaving behind a record of the process.
