@@ -2,7 +2,7 @@
 title: Writing for your future self
 description: Why I decided to keep a public notebook
 pubDate: 2026-10-19
-category: Essays
+category: Journal
 tags: [writing, learning]
 ---
 

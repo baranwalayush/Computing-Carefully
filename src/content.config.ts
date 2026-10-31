@@ -6,7 +6,7 @@ export const categories = [
   'Technical Deep Dives',
   'Engineering Notes',
   'Learning Notes',
-  'Essays',
+  'Journal'
 ] as const;
 
 const blog = defineCollection({
